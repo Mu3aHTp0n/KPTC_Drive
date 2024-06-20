@@ -38,7 +38,7 @@ export default {
         
       },
       goHome(){
-        window.open("https://www.youtube.com/watch?v=i_gCg5Tp-rs"); // Тут крч нужен метод открытия главного окна, а я не шарю его название, сами добавите
+        window.open("https://www.youtube.com/watch?v=ZpWEpO1i_cI"); // Тут крч нужен метод открытия главного окна, а я не шарю его название, сами добавите
       }
     }
 }
