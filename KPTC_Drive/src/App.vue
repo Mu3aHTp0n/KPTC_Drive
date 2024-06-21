@@ -4,21 +4,83 @@ import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <div class="file-manager">
+    <h1>Управление файлами</h1>
+    <input type="file" @change="onFileChange" />
+    <ul class="file-list">
+      <li v-for="(file, index) in files" :key="index" class="file-item">
+        {{ file.name }}
+        <button @click="deleteFile(index)" class="delete-button">Удалить</button>
+      </li>
+    </ul>
+  </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      files: []
+    };
+  },
+  methods: {
+    onFileChange(event) {
+      const selectedFiles = event.target.files;
+      for (let i = 0; i < selectedFiles.length; i++) {
+        this.files.push(selectedFiles[i]);
+      }
+    },
+    deleteFile(index) {
+      this.files.splice(index, 1);
+    }
+  }
+};
+</script>
+
+<style scoped>
+.file-manager {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.file-list {
+  
+  padding: 0;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #f4f4f4;
+  border-radius: 5px;
+}
+
+.delete-button {
+  padding: 5px 10px;
+  background-color: #ff6666;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+</style>
+
+
+<style>
+ul {
+  list-style-type: none;
+}
+</style>
 
 <style scoped>
 header {
