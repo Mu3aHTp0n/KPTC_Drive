@@ -1,85 +1,141 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+    <div class="buttons">
+        <button id="download" @click="openFilePicker">Загрузить файл</button>
+        <button id="delete" @click="deleteFiles">Удалить</button>
+        <button id="rename" @click="openRenameModal">Переименовать</button>
+        <button id="load" @click="downloadFiles">Скачать</button>
+        <button id="save" @click="saveFiles">Сохранить</button>
     </div>
-  </header>
 
-  <RouterView />
+    <div>
+        <input type="file" ref="fileInput" @change="onFileChange" style="display: none" multiple />
+        <div v-for="(file, index) in selectedFiles" :key="index" class="back">
+            <input type="checkbox" v-model="file.checked" />
+            <p>{{ file.name }}</p>
+        </div>
+    </div>
+
+    <div v-if="showRenameModal" class="modal">
+        <div class="modal-content">
+            <h2>Введите новое имя файла</h2>
+            <input id="enter-text" type="text" v-model="newFileName" />
+            <div class="mod-text">
+                <button id="btnCancel" @click="cancelRename">Отменить</button>
+                <button id="btnSave" @click="saveRename">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
 </template>
 
+<script>
+    export default {
+        data() {
+            return {
+                selectedFiles: [],
+                showRenameModal: false,
+                newFileName: ''
+            }
+        },
+        methods: {
+            openFilePicker() {
+                this.$refs.fileInput.click();
+            },
+            onFileChange(event) {
+                const newFiles = Array.from(event.target.files).map(file => ({ name: file.name, checked: false }));
+                this.selectedFiles = this.selectedFiles.concat(newFiles);
+            },
+            deleteFiles() {
+                this.selectedFiles = this.selectedFiles.filter(file => !file.checked);
+            },
+            openRenameModal() {
+                const selectedFile = this.selectedFiles.find(file => file.checked);
+                if (selectedFile) {
+                    this.newFileName = selectedFile.name;
+                    this.showRenameModal = true;
+                }
+            },
+            cancelRename() {
+                this.showRenameModal = false;
+            },
+            saveRename() {
+                const selectedFileIndex = this.selectedFiles.findIndex(file => file.checked);
+                if (selectedFileIndex !== -1) {
+                    this.selectedFiles[selectedFileIndex].name = this.newFileName;
+                    this.showRenameModal = false;
+                }
+            },
+            downloadFiles() {
+                // Логика для скачивания файлов
+            },
+            saveFiles() {
+                // Логика для сохранения файлов
+            }
+        }
+    };
+</script>
+
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
+    .back {
+        display: flex;
+        align-items: center;
+    }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
+    .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        font-family: "DM Serif Display", serif;
+    }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
+    .mod-text {
+        padding-top: 20px;
+    }
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
+    #btnCancel {
+        border-radius: 10px;
+        font-family: "DM Serif Display", serif;
+        padding: 10px;
+        margin-right: 30px;
+    }
 
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
+    #btnSave {
+        border-radius: 10px;
+        font-family: "DM Serif Display", serif;
+        padding: 10px;
+    }
 
-nav a:first-of-type {
-  border: 0;
-}
+    #enter-text {
+        margin: 5px;
+        padding: 10px;
+        border-top: 0px;
+        border: 1px solid #000000;
+    }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+    #download, #load, #save, #rename, #delete {
+        border-radius: 30px;
+        border: 1px solid #000000;
+        background-color: white;
+        padding: 10px;
+    }
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
+    .buttons {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding-right: 700px;
+    }
 </style>
