@@ -1,9 +1,9 @@
 <template>
     <header>
-      <h1>КПК Диск</h1>
+      <h1>KPTC Disc</h1>
       <div class="button-section">
-        <button type = "button" @click ="this.info = 'Авторизация'">Войти</button>
-        <button type = "button" @click ="this.info = 'Диск'">Открыть диск</button>
+        <button type = "button" onclick="location.href='authorization';" @click ="this.info = 'Авторизация'">Войти</button>
+        <button type = "button" onclick="location.href='FileWindow';" @click ="this.info = 'Диск'">Открыть диск</button>
       </div>
     </header>
   </template>
@@ -15,6 +15,9 @@
   </script>
   
   <style scoped>
+  body {
+    background-color: #FFF;
+  }
   header {
     background-color: #42b983;
     color: white;
@@ -33,6 +36,10 @@
     font-size: 28px;
     font-weight: bold;
     user-select: none;
+  }
+  a {
+    text-decoration: none;
+    color: #000;
   }
   button {
     border: none;

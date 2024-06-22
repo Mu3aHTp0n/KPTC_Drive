@@ -1,6 +1,6 @@
 <template>
   <footer class="footer">
-    <p>© 2024 КПК Диск</p>
+    <p>© 2024 KPTC Disc</p>
   </footer>
 </template>
 

@@ -1,8 +1,11 @@
 <template>
   <div class="wrapper" >
     <Header/>
-    <div class="content"></div>
-    <!-- <RouterLink to="/"></RouterLink> -->
+    <div class="content">
+      <video autoplay="autoplay" loop="loop" src="/public/gif.mp4"></video>
+      <img src="/public/sigma.gif" alt="">
+      <video autoplay="autoplay" loop="loop" src="/public/papi4.mp4"></video>
+    </div>
     <Footer/>
   </div>
 </template>
@@ -39,6 +42,14 @@ export default {
   }
   .content {
     flex: 1 0 auto;
+    background-color: #FFF;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .content > * {
+    width: 320px;
   }
 </style>
 
